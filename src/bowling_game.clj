@@ -23,7 +23,7 @@
 (defn frames
   "Converts a sequence of rolls to a sequence of frames"
   [rolls]
-  (when rolls
+  (when-let [rolls (seq rolls)]
     (lazy-seq (cons (take (balls-to-score rolls) rolls)
                     (frames (drop (frame-advance rolls) rolls))))))
 

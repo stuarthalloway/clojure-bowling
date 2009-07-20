@@ -23,6 +23,7 @@
        "all ones" (repeat 10 [1 1]) (repeat 1)
        "all fives (spares)" (repeat 10 [5 5 5]) (repeat 5)
        "all tens (strikes)" (repeat 10 [10 10 10]) (repeat 10)
+       "a partial game" [[1 2] [3 4]] [1 2 3 4]
        ))
 
 (deftest test-various-games
