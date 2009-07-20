@@ -1,13 +1,5 @@
-(ns bowling-game)
-
-(defn score-strike [rolls]
-  (apply + (take 3 rolls)))
-
-(defn score-spare [rolls]
-  (apply + (take 3 rolls)))
-
-(defn score-no-mark [rolls]
-  (apply + (take 2 rolls)))
+(ns bowling-game
+  (:use clojure.contrib.seq-utils))
 
 (defn strike? [rolls]
   (= 10 (first rolls)))
@@ -15,33 +7,28 @@
 (defn spare? [rolls]
   (= 10 (apply + (take 2 rolls))))
 
-(defn score-next-frame
-  "Score the next frame from a list of rolls."
+(defn balls-to-score
+  "How many balls contribute to this frame's score?"
   [rolls]
   (cond
-   (strike? rolls) (score-strike rolls)
-   (spare? rolls) (score-spare rolls)
-   :else (score-no-mark rolls)))
+   (strike? rolls) 3
+   (spare? rolls) 3
+   :else 2))
 
 (defn frame-advance
   "How many rolls should be consumed to advance to the next frame?"
   [rolls]
   (if (strike? rolls) 1 2))
 
-(defn score-frames
-  "Lazy sequence of scores for up to a game's worth of rolls."
+(defn frames
+  "Converts a sequence of rolls to a sequence of frames"
   [rolls]
-  (letfn [(score-rolls*
-           [rolls]
-           (if (seq rolls)
-             (lazy-seq (cons (score-next-frame rolls)
-                             (score-rolls* (drop (frame-advance rolls) rolls))))))]
-    (take 10 (score-rolls* rolls))))
-  
+  (if rolls
+    (lazy-seq (cons (take (balls-to-score rolls) rolls)
+                    (frames (drop (frame-advance rolls) rolls))))))
+
 (defn score
   "Score a bowling game, passed as a sequence of rolls."
   [rolls]
-  (apply + (score-frames rolls)))    
+  (apply + (flatten (take 10 (frames rolls)))))    
 
-(defn roll [game pins]
-  (conj game pins))
