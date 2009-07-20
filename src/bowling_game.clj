@@ -27,8 +27,12 @@
     (lazy-seq (cons (take (balls-to-score rolls) rolls)
                     (frames (drop (frame-advance rolls) rolls))))))
 
-(defn score
+(defn score-frame
+  [frame]
+  (reduce + frame))
+
+(defn score-game
   "Score a bowling game, passed as a sequence of rolls."
   [rolls]
-  (apply + (flatten (take 10 (frames rolls)))))    
+  (reduce + (map score-frame (take 10 (frames rolls)))))    
 

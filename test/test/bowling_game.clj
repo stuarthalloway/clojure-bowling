@@ -26,7 +26,7 @@
        ))
 
 (deftest test-various-games
-  (are [description expected-score game] (= expected-score (score game))
+  (are [description expected-score game] (= expected-score (score-game game))
        "gutter game" 0 (repeat 0)
        "all ones" 20 (repeat 1)
        "one spare" 16 (concat [5 5 3] (repeat 0))
