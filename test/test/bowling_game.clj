@@ -19,25 +19,14 @@
 (deftest can-create-game
   (is (not (nil? (new-game)))))
 
-(deftest gutter-game-should-score-0
-  (is (= 0 (score (gutter-game (new-game))))))
+(deftest test-various-games
+  (are [description expected-score game] (= expected-score (score game))
+       "gutter game" 0 (gutter-game (new-game))
+       "all ones" 20 (roll-many (new-game) 20 1)
+       "one space" 16 (roll-many (roll-list (new-game) [5 5 3]) 17 0)
+       "one strike" 24 (roll-many (roll-list (new-game) [10 3 4]) 16 0)
+       "perfect game" 300 (roll-many (new-game) 12 10)
+       ))
 
-(deftest all-ones-should-score-20
-  (is (= 20 (score (roll-many (new-game) 20 1)))))
-
-(deftest one-spare
-  (is (= 16 (score
-    (roll-many
-      (roll-list (new-game) [5 5 3])
-      17 0)))))
-
-(deftest one_strike
-  (is (= 24 (score
-    (roll-many
-      (roll-list (new-game) [10 3 4])
-      16 0)))))
-
-(deftest perfect-game
-  (is (= 300 (score (roll-many (new-game) 12 10)))))
 
 
