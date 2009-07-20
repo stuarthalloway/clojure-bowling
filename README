@@ -1,0 +1,8 @@
+This is an implementation of the Uncle Bob's bowling scorer [1] in Clojure.
+
+Note that this requires a post-1.0 version of Clojure and contrib to use the new 'are' syntax.
+
+Required JARs a are in lib, and there are script to run a REPL or the tests in bin.
+
+Stuart Halloway
+http://blog.thinkrelevance.com

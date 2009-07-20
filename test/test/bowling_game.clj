@@ -2,19 +2,20 @@
   (:use clojure.test)
   (:use bowling-game))
 
-(deftest can-create-game
-  (is (not (nil? (new-game)))))
+; Tests could be improved by a macro that captures the descriptions,
+; or by modifying 'are' to do so in some way.
 
 (deftest scoring-frames
   (are [description score frames] (= score (score-next-frame frames))
-       :strike 30 [10 10 10]
-       :spare 20 [5 5 10]
-       :no-mark 8 [5 3 5]))
+       "strike" 30 [10 10 10]
+       "spare" 20 [5 5 10]
+       "no mark" 8 [5 3 5]))
 
 (deftest advancing-frames
-  (is (= 1 (frame-advance [10])))
-  (is (= 2 (frame-advance [5 5])))
-  (is (= 2 (frame-advance [1 1]))))
+  (are [description advance frames] (= advance (frame-advance frames))
+       "strike" 1 [10]
+       "spare" 2 [5 5]
+       "no mark" 2 [5 4]))
 
 (deftest test-score-frames-for-various-games
   (are [description expected-scores game] (= expected-scores (score-frames game))
